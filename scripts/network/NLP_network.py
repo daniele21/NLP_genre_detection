@@ -53,7 +53,7 @@ def LSTM_network(params, compile=True):
 
     if(compile):
         model.compile(optimizer=opt(learning_rate=lr),
-                      loss=loss(from_logits=True),
+                      loss=loss,
                       metrics=['acc'],
                       )
 

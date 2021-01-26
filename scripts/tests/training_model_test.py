@@ -21,7 +21,7 @@ def training_test():
                          'dropout_rate': 0.3,
                          'optimizer': keras.optimizers.Adam,
                          'lr': 1e-2,
-                         'loss': keras.losses.sparse_categorical_crossentropy,
+                         'loss': keras.losses.categorical_crossentropy,
                          }
 
     params['training'] = {'batch_size': 32,
