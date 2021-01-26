@@ -1,7 +1,7 @@
 from scripts.network.NLP_network import LSTM_network
 from scripts.pipeline.dataset_pipeline import generate_training_dataset
 
-def train_model(params):
+def train_model(params, callbacks=None):
     data_params = params['data']
     network_params = params['network']
     training_params = params['training']
@@ -26,7 +26,8 @@ def train_model(params):
               batch_size=batch_size,
               epochs=epochs,
               validation_data=(x_test, y_test),
-              verbose=1,
+              callbacks=callbacks,
+              verbose=0,
               )
 
     return model
