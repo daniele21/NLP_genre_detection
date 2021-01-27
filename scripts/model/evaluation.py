@@ -6,7 +6,7 @@ from core.file_manager.savings import save_json
 
 def mean_top_k_accuracy_score(y_true, y_pred, k):
     acc = top_k_categorical_accuracy(y_true, y_pred, k).numpy()
-    return acc.mean()
+    return acc.mean().item()
 
 def accuracy(y_true, y_pred):
     return accuracy_score(y_true, y_pred)
@@ -26,11 +26,11 @@ def recall(y_true, y_pred):
 
 def evaluation_report(y_true, y_pred, y_bin_pred, k=5, save_dir=None):
 
-    report = {'acc_top_5': mean_top_k_accuracy_score(y_true, y_pred, k),
-              'acc': accuracy(y_true, y_bin_pred),
-              'prec': precision(y_true, y_bin_pred),
-              'rec': recall(y_true, y_bin_pred),
-              'auc': roc_auc(y_true, y_pred)}
+    report = {f'acc_top_{k}': float(mean_top_k_accuracy_score(y_true, y_pred, k)),
+              'acc': float(accuracy(y_true, y_bin_pred)),
+              'prec': float(precision(y_true, y_bin_pred)),
+              'rec': float(recall(y_true, y_bin_pred)),
+              'auc': float(roc_auc(y_true, y_pred))}
 
     if save_dir is not None:
         filepath = f'{save_dir}evaluation_report.json'
