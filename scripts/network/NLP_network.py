@@ -1,7 +1,7 @@
 import keras
 
-from scripts.constants.config import MAX_WORD_SENTENCE
-
+from constants.config import MAX_WORD_SENTENCE
+from scripts.network.network_utils import get_optimizer_from_name, get_loss_from_name
 
 def LSTM_network(params, compile=True):
 
@@ -12,9 +12,9 @@ def LSTM_network(params, compile=True):
     lstm_units = params['lstm_units']
     num_classes = params['n_classes']
     dropout_rate = params['dropout_rate']
-    opt = params['optimizer']
+    opt = get_optimizer_from_name(params['optimizer'])
     lr = params['lr']
-    loss = params['loss']
+    loss = get_loss_from_name(params['loss'])
 
 
     # INPUT
@@ -37,7 +37,7 @@ def LSTM_network(params, compile=True):
 
     # DENSE
     dense_layer = keras.layers.Dense(units=num_classes,
-                                     activation='softmax')
+                                     activation='sigmoid')
 
 
     # FORWARDING
