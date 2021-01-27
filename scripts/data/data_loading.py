@@ -1,6 +1,6 @@
 import pandas as pd
 
-from scripts.constants.paths import TRAIN_PATH, TEST_PATH
+from constants.paths import TRAIN_PATH, TEST_PATH
 
 
 def load_data(params):

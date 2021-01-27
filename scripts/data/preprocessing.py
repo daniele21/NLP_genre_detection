@@ -1,6 +1,6 @@
 import pandas as pd
 
-from core.text_preprocessing import remove_punctuations, stem_text, lemmatize_text
+from core.preprocessing.text_preprocessing import remove_punctuations, stem_text, lemmatize_text
 
 def stem_sentence(sentence):
     new_sentence = ''

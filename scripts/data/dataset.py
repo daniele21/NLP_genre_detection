@@ -2,7 +2,7 @@ from keras_preprocessing.sequence import pad_sequences
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.utils.np_utils import to_categorical
 
-from scripts.constants.config import HOMEMADE, MAX_WORD_SENTENCE
+from constants.config import HOMEMADE, MAX_WORD_SENTENCE
 
 import numpy as np
 
