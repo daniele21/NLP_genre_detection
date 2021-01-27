@@ -1,6 +1,6 @@
-from core.text_preprocessing import init_nltk
-from core.tokenizers import homemade_tokenizer
-from scripts.constants.config import HOMEMADE
+from core.preprocessing.text_preprocessing import init_nltk
+from core.preprocessing.tokenizers import homemade_tokenizer
+from constants.config import HOMEMADE
 from scripts.data.data_loading import load_data
 from scripts.data.dataset import split_data, create_dataset
 from scripts.data.preprocessing import sentence_preprocessing
