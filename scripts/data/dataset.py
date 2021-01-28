@@ -40,9 +40,6 @@ def create_dataset(sentence_series, target_series, tokenizer, tokenizer_type=HOM
     x_dataset = pad_sequences(sequences=x_sentence, maxlen=MAX_WORD_SENTENCE,
                               padding='post', value=tokenizer['word2idx']['PAD'])
 
-    # y_dataset = pad_sequences(sequences=y_sentence, maxlen=MAX_WORD_SENTENCE,
-    #                           padding='post', value=tokenizer['label2idx']['PAD'])
-
     num_classes = len(tokenizer['label2idx'])
     y_dataset = []
     for targets in y_sentence:
@@ -55,3 +52,24 @@ def create_dataset(sentence_series, target_series, tokenizer, tokenizer_type=HOM
     y_dataset = np.array(y_dataset)
 
     return x_dataset, y_dataset
+
+def create_inference_dataset(sentence_series, tokenizer, tokenizer_type=HOMEMADE):
+
+    sentences = []
+    length_samples = len(sentence_series)
+
+    if tokenizer_type == HOMEMADE:
+        for i in range(length_samples):
+            sentence = sentence_series.iloc[i]
+            tokenized_sentence = []
+            for word in sentence.split(sep=' '):
+                token = tokenizer['word2idx'].get(word)
+                token = tokenizer['word2idx']['UNK'] if token is None else token
+                tokenized_sentence.append(token)
+            sentences.append(tokenized_sentence)
+
+    dataset = pad_sequences(sequences=sentences, maxlen=MAX_WORD_SENTENCE,
+                              padding='post', value=tokenizer['word2idx']['PAD'])
+
+    return dataset
+

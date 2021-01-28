@@ -1,3 +1,5 @@
+
+
 def homemade_tokenizer(sentence_series, target_series):
 
     all_words = [word for sentence in sentence_series for word in sentence.split(sep=' ')]
