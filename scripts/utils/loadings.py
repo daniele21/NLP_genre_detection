@@ -22,3 +22,7 @@ def load_params(type, model_dir):
     params = load_json(filepath)
 
     return params
+
+def load_tokenizer(model_dir):
+    filepath = f'{model_dir}tokenizer'
+    return load_json(filepath)
