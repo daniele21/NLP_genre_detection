@@ -63,9 +63,9 @@ def LSTM_network_pretrained_emb(params, compile=True):
     lstm_units = params['lstm_units']
     num_classes = params['n_classes']
     dropout_rate = params['dropout_rate']
-    opt = get_optimizer_from_name(params['optimizer'])
+    opt = get_optimizer(params['optimizer'])
     lr = params['lr']
-    loss = get_loss_from_name(params['loss'])
+    loss = get_loss(params['loss'])
 
 
     # INPUT

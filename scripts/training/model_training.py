@@ -18,7 +18,6 @@ def train_model(data_resources, params, callbacks=None):
     # network_params['n_classes'] = 40
     model = LSTM_network(network_params, compile=True)
 
-
     x_train, y_train = dataset['train']['x'], dataset['train']['y']
     x_test, y_test = dataset['test']['x'], dataset['test']['y']
 
