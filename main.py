@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 import logging
 
 from scripts.pipeline.dataset_pipeline import generate_training_dataset
+from scripts.pipeline.training_pipeline import training_pipeline
 from scripts.training.model_training import train_model
 
 logger = logging.getLogger(__name__)
@@ -29,16 +30,12 @@ def main(args):
     params['training'] = {'batch_size': args.batch_size,
                           'epochs': args.epochs}
 
-    dataset_pipeline = args.dataset
-    training_pipeline = args.train
+    dataset = args.dataset
+    train = args.train
 
-    if not dataset_pipeline and training_pipeline:
-        params['data']['train'] = True
+    if not dataset and train:
+        model = training_pipeline(params)
 
-        data_params = params['data']
-        data_resources = generate_training_dataset(data_params)
-
-        model = train_model(data_resources, params)
 
 
 
