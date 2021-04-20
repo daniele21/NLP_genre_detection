@@ -1,7 +1,7 @@
 import keras
 
 from constants.config import MAX_WORD_SENTENCE
-from scripts.network.network_utils import get_optimizer_from_name, get_loss_from_name
+from scripts.network.network_utils import get_optimizer, get_loss
 
 def LSTM_network(params, compile=True):
 
@@ -10,9 +10,9 @@ def LSTM_network(params, compile=True):
     lstm_units = params['lstm_units']
     num_classes = params['n_classes']
     dropout_rate = params['dropout_rate']
-    opt = get_optimizer_from_name(params['optimizer'])
+    opt = get_optimizer(params['optimizer'])
     lr = params['lr']
-    loss = get_loss_from_name(params['loss'])
+    loss = get_loss(params['loss'])
 
 
     # INPUT
