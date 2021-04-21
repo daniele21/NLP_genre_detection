@@ -1,21 +1,26 @@
+from typing import Dict, Text
+
 from tensorflow.python.keras.losses import BinaryCrossentropy
 from tensorflow.python.keras.optimizer_v2.adam import Adam
 
+from core.preprocessing.tokenizers import MyTokenizer
 from scripts.network.NLP_network import LSTM_network
 
 
-def train_model(data_resources, params, callbacks=None):
+def train_model(dataset: Dict[Text, Text],
+                tokenizer: MyTokenizer,
+                params: Dict,
+                callbacks=None):
+
     network_params = params['network']
     training_params = params['training']
 
-    tokenizer = data_resources['tokenizer']
-    dataset = data_resources['dataset']
+    network_params['n_word_tokens'] = tokenizer.n_words + 1
+    network_params['n_classes'] = tokenizer.n_labels
 
-    network_params['n_word_tokens'] = len(tokenizer['word2idx'])
-    network_params['n_classes'] = len(tokenizer['label2idx'])
     network_params['optimizer'] = Adam
     network_params['loss'] = BinaryCrossentropy(from_logits=True)
-    # network_params['n_classes'] = 40
+
     model = LSTM_network(network_params, compile=True)
 
     x_train, y_train = dataset['train']['x'], dataset['train']['y']

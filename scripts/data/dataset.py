@@ -69,12 +69,13 @@ def create_inference_dataset(sentences: Series,
         sentence = sentences.iloc[i]
         tokenized_sentence = []
         for word in sentence.split(sep=' '):
-            token = tokenizer.word_to_index(word)
-            token = tokenizer.word_to_index('UNK') if token is None else token
-            tokenized_sentence.append(token)
+            if word != '':
+                token = tokenizer.word_to_index(word)
+                token = tokenizer.word_to_index('UNK') if token is None else token
+                tokenized_sentence.append(token)
         sentences_list.append(tokenized_sentence)
 
-    dataset = pad_sequences(sequences=sentences, maxlen=MAX_WORD_SENTENCE,
+    dataset = pad_sequences(sequences=sentences_list, maxlen=MAX_WORD_SENTENCE,
                             padding='post', value=tokenizer.word_to_index('PAD'))
 
     return dataset

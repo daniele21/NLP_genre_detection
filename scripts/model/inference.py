@@ -1,6 +1,9 @@
 import numpy as np
 from copy import deepcopy
 
+from core.preprocessing.tokenizers import MyTokenizer
+
+
 def model_inference(model, x, thr=0.5):
     y_pred = model.predict(x)
 
@@ -10,14 +13,16 @@ def model_inference(model, x, thr=0.5):
 
     return y_pred, y_bin_pred
 
-def extract_five_movies(y_pred, tokenizer):
+
+def extract_five_movies(y_pred,
+                        tokenizer: MyTokenizer):
 
     five_movies_pred = y_pred.argsort()
-    five_movies_pred = np.flip(five_movies_pred[:,-5:])
+    five_movies_pred = np.flip(five_movies_pred[:, -5:])
 
     labels = []
     for y in five_movies_pred:
-        labels.append([tokenizer['idx2label'][str(token)] for token in y])
+        labels.append([tokenizer.index_to_label(token) for token in y])
 
     final_labels = []
     for row in labels:

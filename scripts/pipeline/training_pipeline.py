@@ -7,9 +7,9 @@ def training_pipeline(params, save_dir=None, callbacks=None):
     params['data']['train'] = True
 
     data_params = params['data']
-    data_resources = generate_training_dataset(data_params, save_dir=save_dir)
+    dataset, tokenizer = generate_training_dataset(data_params, save_dir=save_dir)
 
-    model = train_model(data_resources, params, callbacks=callbacks)
+    model = train_model(dataset, tokenizer, params, callbacks=callbacks)
 
     plot_loss(model.history.history['loss'], model.history.history['val_loss'])
 

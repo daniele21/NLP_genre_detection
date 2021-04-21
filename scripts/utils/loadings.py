@@ -1,7 +1,7 @@
 import keras
 
 from constants.paths import PARAMS_FILENAMES
-from core.file_manager.loadings import load_json
+from core.file_manager.loadings import load_json, pickle_load
 
 
 def load_model(model_dir):
@@ -9,6 +9,7 @@ def load_model(model_dir):
     model_path = f'{model_dir}{model_name}.hdf5'
 
     return keras.models.load_model(model_path)
+
 
 def load_params(type, model_dir):
     """
@@ -23,6 +24,7 @@ def load_params(type, model_dir):
 
     return params
 
+
 def load_tokenizer(model_dir):
     filepath = f'{model_dir}tokenizer'
-    return load_json(filepath)
+    return pickle_load(filepath)

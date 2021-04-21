@@ -1,8 +1,8 @@
 from typing import Text, Dict
 
-from core.file_manager.savings import save_json
+from core.file_manager.savings import save_json, pickle_save
 from core.preprocessing.text_preprocessing import init_nltk
-from core.preprocessing.tokenizers import homemade_tokenizer, init_tokenizer
+from core.preprocessing.tokenizers import init_tokenizer
 from constants.config import HOMEMADE
 from scripts.data.data_loading import load_data
 from scripts.data.dataset import split_data, create_dataset, create_inference_dataset
@@ -25,7 +25,7 @@ def generate_training_dataset(params: Dict,
     :return:
         x_train, x_test, y_train, y_test
     """
-    data = load_data(params)
+    data = load_data(params['data_path'])
 
     init_nltk()
     prep_data = sentence_preprocessing(data,
@@ -53,16 +53,14 @@ def generate_training_dataset(params: Dict,
 
     if save_dir is not None:
         filepath = f'{save_dir}tokenizer'
-        save_json(tokenizer, filepath)
+        pickle_save(tokenizer, filepath)
 
-    return {'tokenizer': tokenizer,
-            'dataset': dataset}
+    return dataset, tokenizer
 
 
-def generate_test_dataset(tokenizer):
-    params = {'train': False}
+def generate_test_dataset(data_path, tokenizer):
 
-    data = load_data(params)
+    data = load_data(data_path)
     init_nltk()
     prep_data = sentence_preprocessing(data,
                                        stemming=True,
