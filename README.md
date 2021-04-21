@@ -35,5 +35,5 @@ Mean Average Precision at K for the top 5 predicted genres
 | Model                   | Score |
 |-------------------------|-------|
 | LSTM Network            | 0.55  |
-| Pretrained LSTM network | 0.44  |
+| Pretrained LSTM network | 0.50  |
 | Transformer network     | ....  |
