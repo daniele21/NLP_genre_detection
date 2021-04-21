@@ -6,11 +6,14 @@ import string
 porter = nltk.PorterStemmer()
 lemmatizer = nltk.WordNetLemmatizer()
 
+
 def init_nltk():
     download_stopwords()
 
+
 def download_stopwords():
     nltk.download('stopwords')
+
 
 def remove_punctuations(text):
     # download_stopwords()
@@ -31,7 +34,7 @@ def remove_stopwords(sentence, lang='english'):
     stop_words = stopwords.words(lang)
 
     new_sentence = ''
-    for word in sentence:
+    for word in sentence.split(sep=' '):
         if word not in stop_words:
             new_sentence += f'{word} '
 
@@ -41,6 +44,7 @@ def remove_stopwords(sentence, lang='english'):
 def stem_text(word):
     return porter.stem(word)
 
+
 def lemmatize_text(word):
     ADJ, ADJ_SAT, ADV, NOUN, VERB = "a", "s", "r", "n", "v"
     lemmatized_word = f'{word}'
@@ -49,6 +53,7 @@ def lemmatize_text(word):
         lemmatized_word = lemmatizer.lemmatize(lemmatized_word, pos=x)
 
     return lemmatized_word
+
 
 def sentence_splitter_by_nltk(text):
     return nltk.extract_test_sentences(text)
