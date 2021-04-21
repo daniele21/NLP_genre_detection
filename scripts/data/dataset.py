@@ -1,13 +1,18 @@
+from typing import Dict
+
 from keras_preprocessing.sequence import pad_sequences
+from pandas import Series
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.utils.np_utils import to_categorical
 
-from constants.config import HOMEMADE, MAX_WORD_SENTENCE
+from constants.config import MAX_WORD_SENTENCE
 
 import numpy as np
 
+from core.preprocessing.tokenizers import MyTokenizer
 
-def split_data(x_data, y_data, params):
+
+def split_data(x_data, y_data, params: Dict):
     split_size = params['split_size']
     shuffle = params['shuffle']
     seed = params['seed']
@@ -20,27 +25,27 @@ def split_data(x_data, y_data, params):
     return x_train, x_test, y_train, y_test
 
 
-def create_dataset(sentence_series, target_series, tokenizer, tokenizer_type=HOMEMADE):
-    assert len(sentence_series) == len(
-        target_series), 'Error - create_dataset - sentence and target series have different length'
+def create_dataset(sentences: Series,
+                   targets: Series,
+                   tokenizer: MyTokenizer):
 
-    length_samples = len(sentence_series)
+    assert len(sentences) == len(targets), 'Error - create_dataset - sentence and target series have different length'
+
+    length_samples = len(sentences)
 
     x_sentence, y_sentence = [], []
 
-    if tokenizer_type == HOMEMADE:
+    for i in range(length_samples):
+        sentence = sentences.iloc[i]
+        target = targets.iloc[i]
 
-        for i in range(length_samples):
-            sentence = sentence_series.iloc[i]
-            targets = target_series.iloc[i]
-
-            x_sentence.append([tokenizer['word2idx'].get(word) for word in sentence.split(sep=' ')])
-            y_sentence.append([tokenizer['label2idx'].get(t) for t in str(targets).split(sep=' ')])
+        x_sentence.append([tokenizer.word_to_index(word) for word in sentence.split(sep=' ') if word != ''])
+        y_sentence.append([tokenizer.label_to_index(t) for t in str(target).split(sep=' ')])
 
     x_dataset = pad_sequences(sequences=x_sentence, maxlen=MAX_WORD_SENTENCE,
-                              padding='post', value=tokenizer['word2idx']['PAD'])
+                              padding='post', value=tokenizer.word_to_index('PAD'))
 
-    num_classes = len(tokenizer['label2idx'])
+    num_classes = tokenizer.n_labels
     y_dataset = []
     for targets in y_sentence:
         cat_target = np.zeros(num_classes)
@@ -53,23 +58,24 @@ def create_dataset(sentence_series, target_series, tokenizer, tokenizer_type=HOM
 
     return x_dataset, y_dataset
 
-def create_inference_dataset(sentence_series, tokenizer, tokenizer_type=HOMEMADE):
 
-    sentences = []
-    length_samples = len(sentence_series)
+def create_inference_dataset(sentences: Series,
+                             tokenizer: MyTokenizer):
 
-    if tokenizer_type == HOMEMADE:
-        for i in range(length_samples):
-            sentence = sentence_series.iloc[i]
-            tokenized_sentence = []
-            for word in sentence.split(sep=' '):
-                token = tokenizer['word2idx'].get(word)
-                token = tokenizer['word2idx']['UNK'] if token is None else token
-                tokenized_sentence.append(token)
-            sentences.append(tokenized_sentence)
+    sentences_list = []
+    length_samples = len(sentences)
+
+    for i in range(length_samples):
+        sentence = sentences.iloc[i]
+        tokenized_sentence = []
+        for word in sentence.split(sep=' '):
+            token = tokenizer.word_to_index(word)
+            token = tokenizer.word_to_index('UNK') if token is None else token
+            tokenized_sentence.append(token)
+        sentences_list.append(tokenized_sentence)
 
     dataset = pad_sequences(sequences=sentences, maxlen=MAX_WORD_SENTENCE,
-                              padding='post', value=tokenizer['word2idx']['PAD'])
+                            padding='post', value=tokenizer.word_to_index('PAD'))
 
     return dataset
 
