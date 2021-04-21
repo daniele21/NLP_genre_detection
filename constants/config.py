@@ -1,6 +1,6 @@
 HOMEMADE = 'homemade'
 
-MAX_WORD_SENTENCE = 100
+MAX_WORD_SENTENCE = 220
 
 ADAM_OPTIMIZER = 'adam'
 BCE_LOSS = 'bce'

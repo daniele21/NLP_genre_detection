@@ -3,6 +3,7 @@ import keras
 from constants.config import MAX_WORD_SENTENCE
 from scripts.network.network_utils import get_optimizer, get_loss
 
+
 def LSTM_network(params, compile=True):
 
     n_word_tokens = params['n_word_tokens']
@@ -14,13 +15,13 @@ def LSTM_network(params, compile=True):
     lr = params['lr']
     loss = get_loss(params['loss'])
 
-
     # INPUT
     sentence_input = keras.layers.Input(shape=(MAX_WORD_SENTENCE, ))
 
     # EMBEDDINGS
     embeddings = keras.layers.Embedding(input_dim=n_word_tokens,
-                                        output_dim=word_emb_size
+                                        output_dim=word_emb_size,
+                                        trainable=True,
                                         )
 
     # LSTM
@@ -35,7 +36,6 @@ def LSTM_network(params, compile=True):
     dense_layer = keras.layers.Dense(units=num_classes,
                                      activation='sigmoid')
 
-
     # FORWARDING
     x = embeddings(sentence_input)
     h = dropout(x)
@@ -47,13 +47,14 @@ def LSTM_network(params, compile=True):
 
     print(model.summary())
 
-    if(compile):
+    if compile:
         model.compile(optimizer=opt(learning_rate=lr),
                       loss=loss,
                       metrics=['acc'],
                       )
 
     return model
+
 
 def LSTM_network_pretrained_emb(params, compile=True):
 
@@ -66,7 +67,6 @@ def LSTM_network_pretrained_emb(params, compile=True):
     opt = get_optimizer(params['optimizer'])
     lr = params['lr']
     loss = get_loss(params['loss'])
-
 
     # INPUT
     sentence_input = keras.layers.Input(shape=(MAX_WORD_SENTENCE, ))
@@ -90,7 +90,6 @@ def LSTM_network_pretrained_emb(params, compile=True):
     dense_layer = keras.layers.Dense(units=num_classes,
                                      activation='sigmoid')
 
-
     # FORWARDING
     x = embeddings(sentence_input)
     h = dropout(x)
@@ -102,7 +101,7 @@ def LSTM_network_pretrained_emb(params, compile=True):
 
     print(model.summary())
 
-    if(compile):
+    if compile:
         model.compile(optimizer=opt(learning_rate=lr),
                       loss=loss,
                       metrics=['acc'],

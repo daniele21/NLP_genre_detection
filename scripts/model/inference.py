@@ -18,7 +18,7 @@ def extract_five_movies(y_pred,
                         tokenizer: MyTokenizer):
 
     five_movies_pred = y_pred.argsort()
-    five_movies_pred = np.flip(five_movies_pred[:, -5:])
+    five_movies_pred = np.flip(five_movies_pred[:, -5:], axis=1)
 
     labels = []
     for y in five_movies_pred:

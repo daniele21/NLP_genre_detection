@@ -20,8 +20,8 @@ def load_pretrained_glove_embeddings(tokenizer: MyTokenizer,
         embeddings_index[word] = coefs
     f.close()
 
-    embedding_matrix = np.zeros(tokenizer.n_words, EMBEDDING_DIM)
-    for word, i in tokenizer.vocab().items():
+    embedding_matrix = np.zeros((tokenizer.n_words+1, EMBEDDING_DIM))
+    for word, i in tqdm(tokenizer.vocab().items(), total=tokenizer.n_words):
         embedding_vector = embeddings_index.get(word)
         if embedding_vector is not None:
             # words not found in embedding index will be all-zeros.

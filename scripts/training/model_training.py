@@ -5,6 +5,7 @@ from tensorflow.python.keras.optimizer_v2.adam import Adam
 
 from core.preprocessing.tokenizers import MyTokenizer
 from scripts.network.NLP_network import LSTM_network
+from scripts.network.network_init import init_network
 
 
 def train_model(dataset: Dict[Text, Text],
@@ -21,7 +22,8 @@ def train_model(dataset: Dict[Text, Text],
     network_params['optimizer'] = Adam
     network_params['loss'] = BinaryCrossentropy(from_logits=True)
 
-    model = LSTM_network(network_params, compile=True)
+    model = init_network(network_params, tokenizer, compile=True)
+    # model = LSTM_network(network_params, compile=True)
 
     x_train, y_train = dataset['train']['x'], dataset['train']['y']
     x_test, y_test = dataset['test']['x'], dataset['test']['y']

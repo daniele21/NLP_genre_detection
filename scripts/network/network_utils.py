@@ -1,7 +1,6 @@
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import BinaryCrossentropy
 
-
 from constants.config import ADAM_OPTIMIZER, BCE_LOSS
 
 
